@@ -38,27 +38,23 @@ try:
     from datasets.utils._dill import Pickler as _DatasetsPickler
 
     def _compat_batch_setitems(self, items, obj=None):
-        if self._legacy_no_dict_keys_sorting:
-            return super(_DatasetsPickler, self)._batch_setitems(items, obj)
+        if getattr(self, "_legacy_no_dict_keys_sorting", False):
+            try:
+                return super(_DatasetsPickler, self)._batch_setitems(items, obj)
+            except TypeError:
+                return super(_DatasetsPickler, self)._batch_setitems(items)
         try:
             items = sorted(items)
         except Exception:
             from datasets.fingerprint import Hasher
-
             items = sorted(items, key=lambda x: Hasher.hash(x[0]))
-        return dill.Pickler._batch_setitems(self, items, obj)
+        
+        try:
+            return dill.Pickler._batch_setitems(self, items, obj)
+        except TypeError:
+            return dill.Pickler._batch_setitems(self, items)
 
     _DatasetsPickler._batch_setitems = _compat_batch_setitems
-except Exception:
-    pass
-
-try:
-    _accelerator_unwrap_model = Accelerator.unwrap_model
-
-    def _compat_unwrap_model(self, model, keep_fp32_wrapper=True, keep_torch_compile=None):
-        return _accelerator_unwrap_model(self, model, keep_fp32_wrapper=keep_fp32_wrapper)
-
-    Accelerator.unwrap_model = _compat_unwrap_model
 except Exception:
     pass
 
