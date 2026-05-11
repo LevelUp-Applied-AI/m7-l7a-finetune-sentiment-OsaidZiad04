@@ -187,6 +187,18 @@ def train_classifier(
         data_collator=data_collator,
         compute_metrics=compute_metrics,
     )
+
+    # --- Bulletproof CI Compatibility Fix ---
+    if hasattr(trainer, "accelerator") and hasattr(trainer.accelerator, "unwrap_model"):
+        orig_unwrap = trainer.accelerator.unwrap_model
+        def safe_unwrap(model, *args, **kwargs):
+            # Remove problematic kwargs for older accelerate versions in CI
+            kwargs.pop("keep_torch_compile", None)
+            kwargs.pop("keep_fp32_wrapper", None)
+            return orig_unwrap(model, *args, **kwargs)
+        trainer.accelerator.unwrap_model = safe_unwrap
+    # ----------------------------------------
+
     trainer.train()
     return trainer
 
