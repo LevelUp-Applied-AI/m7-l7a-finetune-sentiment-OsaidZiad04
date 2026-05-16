@@ -1,0 +1,31 @@
+id,hypothesis_category,text,expected_label,rationale,predicted_label,predicted_probability,correct
+1,negation,The latest update did not improve battery life at all.,negative,Tests whether the model picks up the negation cue or just the trigger word 'improve'.,negative,0.8504796028137207,True
+2,negation,I fail to see how this is considered an upgrade.,negative,Uses 'fail' and 'considered' to test subtle negation of the positive word 'upgrade'.,negative,0.7114557027816772,True
+3,negation,This app is nothing like the perfect tool it used to be.,negative,Tests if the model ignores the negation 'nothing like' and over-indexes on 'perfect'.,negative,0.9237885475158691,True
+4,negation,Not exactly the masterpiece they promised us.,negative,Tests ironic negation 'Not exactly' combined with a highly positive word 'masterpiece'.,neutral,0.7361270785331726,False
+5,lexical_trigger,This app is no longer reliable on my phone.,negative,Strong positive cue 'reliable' negated by 'no longer'; tests cue-vs-context handling.,negative,0.9484084248542786,True
+6,lexical_trigger,The customer service was surprisingly terrible.,negative,Pairs a positive adverb 'surprisingly' with a negative adjective to confuse simple bag-of-words.,negative,0.9485180974006653,True
+7,lexical_trigger,I finally managed to uninstall this completely.,positive,The word 'uninstall' is usually negative in reviews but here the user achieved their goal ('managed to').,negative,0.9090986847877502,False
+8,lexical_trigger,An absolute disaster from start to finish.,negative,Uses 'absolute' (often used positively like 'absolute best') to modify a negative word.,negative,0.9527325630187988,True
+9,domain_shift,The team won the championship final last weekend.,neutral,Sports content unrelated to app-review training; tests domain-shift robustness.,negative,0.4594084322452545,False
+10,domain_shift,Add two cups of flour and bake for 30 minutes.,neutral,Recipe instructions should be neutral but contain action verbs that might trigger false confidence.,neutral,0.4998125433921814,True
+11,domain_shift,The new superhero movie broke box office records.,neutral,Entertainment news with strong verbs ('broke records'); testing if it predicts positive instead of neutral.,negative,0.7145289182662964,False
+12,domain_shift,The prime minister announced a new economic plan.,neutral,Political news; testing if formal language defaults to a specific sentiment.,neutral,0.47000712156295776,True
+13,length_extreme,Ok.,neutral,Extremely short text; tests if lack of features defaults to neutral or random.,neutral,0.8403336405754089,True
+14,length_extreme,Wow!,positive,Single exclamation word; tests if punctuation is enough for a positive classification.,positive,0.6634775400161743,True
+15,length_extreme,No.,negative,Single negative word; tests baseline handling of minimal negative input.,negative,0.6595786809921265,True
+16,length_extreme,"I installed the app yesterday morning while I was eating breakfast and watching the news on television. The weather was a bit cloudy, but I decided to sit near the window anyway. After finishing my coffee, I opened the app, scrolled through the menus for about twenty minutes without doing anything specific, and then closed it to go for a walk.",neutral,"Extremely long, descriptive text with no sentiment; tests if length alone confuses the model.",neutral,0.6636606454849243,True
+17,sarcasm,"Oh great, another update that deletes all my saved files. Thanks!",negative,"Uses explicitly positive words ('great', 'Thanks') in a highly negative sarcastic context.",positive,0.7291962504386902,False
+18,sarcasm,I just love it when the app crashes right before I save.,negative,Uses 'love' in a sarcastic manner regarding a severe bug ('crashes').,positive,0.7222356200218201,False
+19,sarcasm,What a brilliant idea to hide the logout button in a maze.,negative,Uses 'brilliant' sarcastically to describe bad UI design.,positive,0.831725537776947,False
+20,sarcasm,10/10 for finding new ways to completely ruin my day.,negative,Uses a positive rating format '10/10' paired with negative outcome 'ruin my day'.,negative,0.8894439339637756,True
+21,negation,I can't recommend this highly enough.,positive,Double negation structure ('can't' + 'highly enough') which actually means extreme praise.,neutral,0.7172749638557434,False
+22,lexical_trigger,This solved the horrible bug that was destroying my workflow.,positive,"Contains mostly negative words ('horrible', 'bug', 'destroying') but the overall sentiment is positive ('solved').",negative,0.9658019542694092,False
+23,domain_shift,The stock market saw a massive crash today.,neutral,Financial news; testing if 'crash' (usually an app bug) incorrectly triggers negative sentiment.,negative,0.8952014446258545,False
+24,sarcasm,Absolutely perfect if you enjoy wasting your money.,negative,"Starts with 'Absolutely perfect' to trick the model, ending with a negative condition.",positive,0.7179118990898132,False
+25,length_extreme,Fine.,neutral,One word expressing resignation; tests boundary between neutral and negative.,positive,0.7429034113883972,False
+26,lexical_trigger,I am completely free from the premium subscription trap.,positive,Contains 'trap' and 'subscription' (often negative) but user is expressing relief ('free').,negative,0.8097547292709351,False
+27,negation,It wasn't as bad as everyone said it would be.,positive,Uses 'wasn't' and 'bad' but the overall meaning is mildly positive/relieved.,neutral,0.5236260890960693,False
+28,domain_shift,The hurricane destroyed the coastal town.,neutral,Objective reporting of a negative event; testing if factual tragedy is misclassified as negative sentiment.,negative,0.8418636322021484,False
+29,sarcasm,Best app ever for testing my patience.,negative,Uses 'Best app ever' but the object is a negative experience ('testing patience').,positive,0.9066793322563171,False
+30,length_extreme,Why?,neutral,Single question word; tests how the model handles a pure query with no sentiment adjectives.,neutral,0.47338929772377014,True
